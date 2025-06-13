@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OTD API Example</title>
+</head>
+<body>
+  <h2>Check Bus Route Info</h2>
+  <button onclick="getBusRoute()">Get Route Info</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function getBusRoute() {
+      const apiKey = '542jhQ6fGL9aqoUgydivd5VPxElgZMQ4';
+      const routeId = '543'; // change this to any valid route id
+      const url = `https://otd.delhi.gov.in/api/busroute?route_id=${routeId}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'api-key': apiKey,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) throw new Error('API response not OK');
+
+        const data = await response.json();
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Fetch Error:', error);
+        document.getElementById('output').textContent = `Error fetching data: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
